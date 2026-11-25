@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YES - My Profile</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { display: flex; background: #f8fafc; height: 100vh; }
+        /* Sidebar */
+        .sidebar { width: 250px; background: #004a99; color: white; padding: 20px; display: flex; flex-direction: column; }
+        .sidebar img { width: 80px; margin-bottom: 20px; background: white; padding: 5px; border-radius: 5px; }
+        .sidebar h3 { font-size: 16px; margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 10px; }
+        .nav-item { padding: 12px; cursor: pointer; border-radius: 5px; margin-bottom: 5px; transition: 0.2s; }
+        .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.1); font-weight: bold; }
+        /* Main Content */
+        .main { flex: 1; padding: 30px; overflow-y: auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .header h1 { color: #333; }
+        .profile-card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: none; }
+        .profile-card.active { display: block; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 14px; color: #666; margin-bottom: 5px; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; }
+        .btn-save { background: #004a99; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .opp-card { background: #e8f0f7; border-left: 4px solid #004a99; padding: 15px; margin-bottom: 15px; border-radius: 5px; }
+        .opp-card h4 { color: #004a99; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <img src="https://portal.vijana.go.tz/images/yes-logo.png" alt="YES">
+        <h3>Youth Portal</h3>
+        <div class="nav-item active" onclick="showTab('profile')">My Youth Profile</div>
+        <div class="nav-item" onclick="showTab('business')">My Business & Innovation</div>
+        <div class="nav-item" onclick="showTab('journey')">My Development Journey</div>
+        <div class="nav-item" onclick="showTab('opportunities')">Opportunities for Me</div>
+        <div style="margin-top: auto;"><a href="index.html" style="color: white; text-decoration: none;">← Logout</a></div>
+    </div>
+
+    <div class="main">
+        <div class="header">
+            <h1>Welcome, <span id="userName">User</span>!</h1>
+            <span style="color: #666; font-size: 14px;">User ID: <span id="userId"></span></span>
+        </div>
+
+        <!-- 5.1 Profile -->
+        <div id="profile" class="profile-card active">
+            <h2>My Youth Profile</h2><br>
+            <div class="form-group"><label>Full Name</label><input type="text" id="pName"></div>
+            <div class="form-group"><label>Region</label><input type="text" id="pRegion"></div>
+            <div class="form-group"><label>Skills</label><input type="text" id="pSkills"></div>
+            <div class="form-group"><label>Employment Status</label><input type="text" id="pStatus"></div>
+            <button class="btn-save">Update Profile</button>
+        </div>
+
+        <!-- 5.2 Business -->
+        <div id="business" class="profile-card">
+            <h2>My Business & Innovation</h2><br>
+            <div class="form-group"><label>Business Name</label><input type="text" id="bName"></div>
+            <div class="form-group"><label>Business Category</label><input type="text" id="bCategory"></div>
+            <div class="form-group"><label>Development Stage</label>
+                <select><option>Idea</option><option>Developing</option><option>Operating</option></select>
+            </div>
+            <div class="form-group"><label>Current Challenges</label><textarea rows="3"></textarea></div>
+            <button class="btn-save">Save Business Data</button>
+        </div>
+
+        <!-- 5.3 Journey -->
+        <div id="journey" class="profile-card">
+            <h2>My Development Journey</h2><br>
+            <p style="color: #666; margin-bottom: 20px;">Report milestones and upload evidence.</p>
+            <div class="form-group"><label>New Milestone</label><input type="text" placeholder="e.g., Completed training..."></div>
+            <button class="btn-save">Submit Update</button>
+        </div>
+
+        <!-- 5.4 Opportunities -->
+        <div id="opportunities" class="profile-card">
+            <h2>Opportunities for Me</h2><br>
+            <p style="color: #666; margin-bottom: 20px;">Based on your profile, you are matched with these:</p>
+            <div id="oppList"></div>
+        </div>
+    </div>
+
+    <script>
+        // Mock Data for 10 Users
+        const users = {
+            1: { name: "Juma Ali", region: "Dar es Salaam", skills: "Tailoring, Business Mgmt", status: "Self-Employed", bName: "Juma Clothings", bCat: "Textiles", opp: "Business Exhibition - Dar es Salaam" },
+            2: { name: "Amina Hassan", region: "Arusha", skills: "Programming, UI/UX", status: "Student", bName: "TechSolve Innovation", bCat: "ICT", opp: "ICT Innovation Competition - Arusha" },
+            3: { name: "David Mwita", region: "Mwanza", skills: "Graphic Design", status: "Unemployed", bName: "Creative Studios", bCat: "Creative Arts", opp: "Freelance Job - Graphic Design" },
+            4: { name: "Neema Joseph", region: "Dodoma", skills: "Agriculture, Agronomy", status: "Farmer", bName: "Neema Agro", bCat: "Agriculture", opp: "Agricultural Training - Dodoma" },
+            5: { name: "Khalid Omar", region: "Zanzibar", skills: "Tourism, Hospitality", status: "Business Owner", bName: "Spice Tours", bCat: "Tourism", opp: "Tourism Mentorship - Zanzibar" },
+            6: { name: "Grace Peter", region: "Mbeya", skills: "Construction, Engineering", status: "Employed", bName: "GP Builders", bCat: "Construction", opp: "Engineering Grant - Mbeya" },
+            7: { name: "Salim Rashid", region: "Tanga", skills: "Marketing, Sales", status: "Entrepreneur", bName: "Rashid Marketing", bCat: "Marketing", opp: "Market Access Program - Tanga" },
+            8: { name: "Fatma Said", region: "Morogoro", skills: "Catering, Culinary", status: "Self-Employed", bName: "Fatma's Kitchen", bCat: "Food & Bev", opp: "Culinary Business Loan - Morogoro" },
+            9: { name: "Ali Mwinyi", region: "Pemba", skills: "Fishing, Aquaculture", status: "Fisherman", bName: "Blue Ocean Ltd", bCat: "Fisheries", opp: "Aquaculture Training - Pemba" },
+            10: { name: "Zainab Abdallah", region: "Kigoma", skills: "Teaching, Mentorship", status: "Student", bName: "EduConnect", bCat: "Education", opp: "EdTech Innovation Grant - Kigoma" }
+        };
+
+        // Get User ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const uid = urlParams.get('id') || '1';
+        const user = users[uid];
+
+        // Populate UI
+        document.getElementById('userName').innerText = user.name;
+        document.getElementById('userId').innerText = uid;
+        document.getElementById('pName').value = user.name;
+        document.getElementById('pRegion').value = user.region;
+        document.getElementById('pSkills').value = user.skills;
+        document.getElementById('pStatus').value = user.status;
+        document.getElementById('bName').value = user.bName;
+        document.getElementById('bCategory').value = user.bCat;
+
+        // Populate Opportunities
+        document.getElementById('oppList').innerHTML = `
+            <div class="opp-card">
+                <h4>${user.opp}</h4>
+                <p>Based on your skills in <b>${user.skills}</b> and location in <b>${user.region}</b>.</p>
+                <button class="btn-save" style="margin-top: 10px; background: #d4af37; color: #1a1000;">Apply Now</button>
+            </div>
+        `;
+
+        // Tab Switching Logic
+        function showTab(tabId) {
+            document.querySelectorAll('.profile-card').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

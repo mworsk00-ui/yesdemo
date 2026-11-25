@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YES Youth Connect - Demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
+    
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { height: 100%; }
+        
+        body { 
+            background-color: #f4f7f6; 
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding: 40px 20px;
+        }
+
+        .logo { width: 120px; margin-bottom: 20px; }
+        .container { display: flex; gap: 30px; flex-wrap: wrap; justify-content: center; }
+        
+        .card { 
+            background: white; 
+            padding: 40px; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
+            text-align: center; 
+            width: 320px; 
+            cursor: pointer; 
+            transition: transform 0.3s; 
+            border-top: 5px solid #004a99; 
+        }
+        .card:hover { transform: translateY(-10px); }
+        .card.admin { border-top: 5px solid #d4af37; }
+        .card h2 { color: #004a99; margin-bottom: 15px; font-weight: 700; }
+        .card.admin h2 { color: #b89618; }
+        .card p { color: #666; font-size: 14px; margin-bottom: 25px; line-height: 1.5; }
+        
+        .btn { 
+            display: inline-block; 
+            padding: 12px 24px; 
+            background: #004a99; 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 6px; 
+            font-weight: 600; 
+            font-size: 14px;
+            transition: 0.2s;
+        }
+        .btn:hover { background: #003366; }
+        .card.admin .btn { background: #d4af37; color: #1a1000; }
+        .card.admin .btn:hover { background: #b89618; }
+
+        /* =========================================================
+           MCENTER BRAND FOOTER
+           ========================================================= */
+        .mcenter-footer {
+            width: 100%;
+            background: #e8eefc;
+            padding: 30px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-top: 1px solid rgba(15, 23, 42, 0.08);
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .by-text {
+            font-size: 14px;
+            font-weight: 700;
+            color: #4a5b7c;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 20px;
+            white-space: nowrap;
+        }
+
+        .brand-name {
+            font-size: 40px;
+            font-weight: 900;
+            letter-spacing: -1.8px;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        .brand-name .c1 { color: #1a73e8; }
+        .brand-name .c2 { color: #000000; }
+        .brand-name .c3 { color: #34A853; }
+        .brand-name .c4 { color: #FBBC05; }
+        .brand-name .c5 { color: #1a73e8; }
+        .brand-name .c6 { color: #000000; }
+        .brand-name .c7 { color: #34A853; }
+
+        .brand-divider {
+            display: inline-block;
+            width: 2px;
+            height: 46px;
+            background: rgba(15, 23, 42, 0.14);
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+
+        .brand-side {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 4px;
+            text-align: left;
+        }
+
+        .brand-sub {
+            font-size: 15px;
+            font-weight: 700;
+            color: #0f172a;
+            letter-spacing: 0.2px;
+        }
+
+        .brand-tagline {
+            font-size: 11px;
+            font-style: italic;
+            color: #4a5b7c;
+            padding-left: 22px;
+            letter-spacing: 0.3px;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .mcenter-footer { gap: 10px; padding: 20px; }
+            .by-text { font-size: 11px; }
+            .brand { gap: 12px; }
+            .brand-name { font-size: 28px; letter-spacing: -1.2px; }
+            .brand-divider { height: 34px; }
+            .brand-sub { font-size: 12px; }
+            .brand-tagline { font-size: 9px; padding-left: 14px; }
+        }
+
+        @media (max-width: 400px) {
+            .by-text { font-size: 9px; }
+            .brand { gap: 8px; }
+            .brand-name { font-size: 22px; letter-spacing: -0.8px; }
+            .brand-divider { height: 28px; width: 1.5px; }
+            .brand-sub { font-size: 10px; }
+            .brand-tagline { font-size: 8px; padding-left: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <img src="https://portal.vijana.go.tz/images/yes-logo.png" alt="YES Logo" class="logo">
+        <h1 style="color: #333; margin-bottom: 40px; font-weight: 800; text-align: center;">YES Youth Connect (Demo)</h1>
+
+        <div class="container">
+            <div class="card" onclick="window.location.href='user.html?id=1'">
+                <h2>User Portal</h2>
+                <p>Access your profile, update your business, and find matching opportunities.</p>
+                <a class="btn">Enter as User</a>
+            </div>
+
+            <div class="card admin" onclick="window.location.href='admin.html'">
+                <h2>Admin Dashboard</h2>
+                <p>Ministry view: Analytics, business identification, and youth tracking.</p>
+                <a class="btn">Enter as Admin</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- MCENTER BRAND FOOTER -->
+    <div class="mcenter-footer">
+        <span class="by-text">BY</span>
+        <div class="brand">
+            <span class="brand-name">
+                <span class="c1">M</span><span class="c2">c</span><span class="c3">e</span><span class="c4">n</span><span class="c5">t</span><span class="c6">e</span><span class="c7">r</span>
+            </span>
+
+            <span class="brand-divider"></span>
+
+            <div class="brand-side">
+                <span class="brand-sub">IT Service and IT Solution</span>
+                <span class="brand-tagline">"Your technology partner always"</span>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
